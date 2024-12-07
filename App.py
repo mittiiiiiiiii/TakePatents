@@ -1,5 +1,6 @@
 import requests
 import os
+import psycopg2
 from dotenv import load_dotenv
 
 def main():
@@ -23,8 +24,18 @@ def main():
         if access_token:
             print("Access tokenの取得に成功")
 
-            paten_info=get_api_response(access_token,f"{target_url}/{endpoint}",application_number) #APIから特許情報を取得
-            print(paten_info)
+            patent_info=get_api_response(access_token,f"{target_url}/{endpoint}",application_number) #APIから特許情報を取得
+            print(patent_info)
+
+            # SONから必要な情報を抽出
+            registration_number = patent_info['result']['data']['registrationNumber']
+            right_person_name = patent_info['result']['data']['rightPersonInformation'][0]['rightPersonName']
+            invention_title = patent_info['result']['data']['inventionTitle']
+
+            #データベースに保存
+            insert_data(registration_number, right_person_name, invention_title)
+            print("データベースに保存しました")
+
         else:
             raise Exception("Access token could not be retrieved")
 
@@ -58,6 +69,34 @@ def get_api_response(access_token,api_url,app_number):
     else:   #取得失敗
         print("進捗情報取得エラー:", response.status_code, response.text)   #エラーメッセージ
         return None
+
+def insert_data(registration_number, right_person_name, invention_title):
+    try:
+        # PostgreSQLに接続
+        conn = psycopg2.connect(
+            dbname="mydatabase",
+            user="postgres",
+            password=os.getenv('POSTGRES_PASSWORD'),
+            host="localhost",
+            port="5432"  # ポートフォワーディングで使用したポート
+        )
+        cursor = conn.cursor()
+
+        # データを挿入
+        cursor.execute('''
+            INSERT INTO patents_info (registration_number, right_person_name, invention_title)
+            VALUES (%d, %s, %s)
+        ''', (registration_number, right_person_name, invention_title))
+
+        # 変更をコミット
+        conn.commit()
+
+        # 接続を閉じる
+        cursor.close()
+        conn.close()
+
+    except Exception as e:
+        print(f"データベースエラー: {e}")
 
 if __name__=="__main__":
     main()
