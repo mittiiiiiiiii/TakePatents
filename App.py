@@ -14,8 +14,8 @@ def main():
     target_url='https://ip-data.jpo.go.jp/api/patent/v1'
 
     #エンドポイントと出願番号を設定
-    endpoint='app_progress'
-    application_number='2020008423'
+    endpoint='registration_info'
+    application_number='2020034567'
 
     try:
         access_token=get_access_token(auth_url,id,password) #アクセストークンを取得
