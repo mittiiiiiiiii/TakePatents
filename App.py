@@ -2,9 +2,9 @@ import requests
 import os
 from dotenv import load_dotenv
 
-load_dotenv() #.envファイルから認証情報を読み込み
-
 def main():
+    load_dotenv() #.envファイルから認証情報を読み込み
+
     #環境変数からクライアントIDとパスワードを取得
     id=os.getenv('CLIENT_ID')
     password=os.getenv('CLIENT_PASSWORD')
@@ -14,8 +14,8 @@ def main():
     target_url='https://ip-data.jpo.go.jp/api/patent/v1'
 
     #エンドポイントと出願番号を設定
-    endpoint='app_progress'
-    application_number='2020008423'
+    endpoint='registration_info'
+    application_number='2020034567'
 
     try:
         access_token=get_access_token(auth_url,id,password) #アクセストークンを取得
