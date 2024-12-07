@@ -2,9 +2,9 @@ import requests
 import os
 from dotenv import load_dotenv
 
-load_dotenv() #.envファイルから認証情報を読み込み
-
 def main():
+    load_dotenv() #.envファイルから認証情報を読み込み
+
     #環境変数からクライアントIDとパスワードを取得
     id=os.getenv('CLIENT_ID')
     password=os.getenv('CLIENT_PASSWORD')
