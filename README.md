@@ -29,48 +29,52 @@
         - 動作を確認するだけなのでminikubeを使用
         - 将来的には別の方法でKubernetes環境の構築を行いたい
         ```bash
-            % minikube start
+        minikube start
         ````
     
     2. PostgreSQLの管理者ユーザの認証情報の設定と適用
+        - シークレットを作成
         ```bash
-            % python genetate_secret.py  # シークレットの作成を自動で行う
+        python generate_secret.py  #シークレットの作成を自動で行う
         ```
-    
+        - 設定を適応
+        ```bash
+        kubectl apply -f k8s/my-postgres-secret.yaml
+        ```
     3. PostgreSQLのサーバ構成の設定と適用
         - 生成するテーブルの設定
         ```bash
-            % kubectl apply -f k8s/postgres-configmap.yaml
+        kubectl apply -f k8s/postgres-configmap.yaml
         ```
         - podを立ち上げる
         ```bash
-            % kubectl apply -f k8s/postgres-deployment.yaml
+        kubectl apply -f k8s/postgres-deployment.yaml
         ```
         - アクセスできるようにする
         ```bash
-            % kubectl apply -f k8s/postgres-service.yaml
+        kubectl apply -f k8s/postgres-service.yaml
         ```
 
     4. ポートフォワーディングを設定
         - ローカルからクラスターにアクセスをできるようにする
         ```bash
-            kubectl port-forward svc/postgres-service 5432:5432
+        kubectl port-forward svc/postgres-service 5432:5432
         ```
         - 別のターミナルを開く -> 4.アプリの起動へ
         - `Forwarding from [::1]:5432 -> 5432`が出力されたら成功
 
 4. アプリの起動
     ```bash
-    % python App.py
+    python App.py
     ```
 
     - 保存されているか確認
         - データベースに接続
         ```bash
-            psql -h localhost -U postgres -d mydatabase
+        psql -h localhost -U postgres -d mydatabase
         ```
         - 接続できたらデータが保存されているか確認
         ```bash
-            mydatabase=# SELECT * FROM patents_info;
+        mydatabase=# SELECT * FROM patents_info;
         ```
         - テーブルに取得したデータが保存されていれば成功
