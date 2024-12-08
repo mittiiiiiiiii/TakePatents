@@ -72,26 +72,26 @@ def get_api_response(access_token,api_url,app_number):
 
 def insert_data(registration_number, right_person_name, invention_title):
     try:
-        # PostgreSQLに接続
+        #PostgreSQLに接続
         conn = psycopg2.connect(
             dbname="mydatabase",
             user="postgres",
             password=os.getenv('POSTGRES_PASSWORD'),
             host="localhost",
-            port="5432"  # ポートフォワーディングで使用したポート
+            port="5432"  #ポートフォワーディングで使用したポート
         )
         cursor = conn.cursor()
 
-        # データを挿入
+        #データを挿入
         cursor.execute('''
             INSERT INTO patents_info (registration_number, right_person_name, invention_title)
-            VALUES (%d, %s, %s)
+            VALUES (%s, %s, %s)
         ''', (registration_number, right_person_name, invention_title))
 
-        # 変更をコミット
+        #変更をコミット
         conn.commit()
 
-        # 接続を閉じる
+        #接続を閉じる
         cursor.close()
         conn.close()
 
