@@ -28,12 +28,13 @@ def main():
             print(patent_info)
 
             # SONから必要な情報を抽出
-            registration_number = patent_info['result']['data']['registrationNumber']
-            right_person_name = patent_info['result']['data']['rightPersonInformation'][0]['rightPersonName']
-            invention_title = patent_info['result']['data']['inventionTitle']
+            registration_number=patent_info['result']['data']['registrationNumber']
+            decision_date=patent_info['result']['data']['decisionDate']
+            right_person_name=patent_info['result']['data']['rightPersonInformation'][0]['rightPersonName']
+            invention_title=patent_info['result']['data']['inventionTitle']
 
             #データベースに保存
-            insert_data(registration_number, right_person_name, invention_title)
+            insert_data(registration_number,decision_date,right_person_name,invention_title)
             print("データベースに保存しました")
 
         else:
@@ -70,23 +71,23 @@ def get_api_response(access_token,api_url,app_number):
         print("進捗情報取得エラー:", response.status_code, response.text)   #エラーメッセージ
         return None
 
-def insert_data(registration_number, right_person_name, invention_title):
+def insert_data(registration_number,decision_date,right_person_name,invention_title):
     try:
         #PostgreSQLに接続
-        conn = psycopg2.connect(
+        conn=psycopg2.connect(
             dbname="mydatabase",
             user="postgres",
             password=os.getenv('POSTGRES_PASSWORD'),
             host="localhost",
             port="5432"  #ポートフォワーディングで使用したポート
         )
-        cursor = conn.cursor()
+        cursor=conn.cursor()
 
         #データを挿入
         cursor.execute('''
-            INSERT INTO patents_info (registration_number, right_person_name, invention_title)
-            VALUES (%s, %s, %s)
-        ''', (registration_number, right_person_name, invention_title))
+            INSERT INTO patents_info(registration_number,right_person_name,invention_title)
+            VALUES (%s,%s,%s)
+        ''', (registration_number,decision_date,right_person_name,invention_title))
 
         #変更をコミット
         conn.commit()
