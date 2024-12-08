@@ -9,6 +9,7 @@ data:
     \c mydatabase
     CREATE TABLE IF NOT EXISTS patents_info (
       registration_number INTEGER,
+      decision_date DATE,
       right_person_name TEXT,
       invention_title TEXT
     );

@@ -26,7 +26,7 @@ def main():
             patent_info=get_api_response(access_token,f"{target_url}/{endpoint}",application_number) #APIから特許情報を取得
             print(patent_info)
 
-                #JSONから必要な情報を抽出
+            #JSONから必要な情報を抽出
             registration_number=patent_info['result']['data']['registrationNumber']
             decision_date=patent_info['result']['data']['decisionDate']
             right_person_name=patent_info['result']['data']['rightPersonInformation'][0]['rightPersonName']
@@ -79,14 +79,14 @@ def insert_data(registration_number,decision_date,right_person_name,invention_ti
             user="postgres",
             password=os.getenv('POSTGRES_PASSWORD'),
             host="localhost",
-            port="5433"  #ポートフォワーディングで使用したポート
+            port="5432"  #ポートフォワーディングで使用したポート
         )
         cursor=conn.cursor()
 
         #データを挿入
         cursor.execute('''
-            INSERT INTO patents_info(registration_number,right_person_name,invention_title)
-            VALUES (%s,%s,%s)
+            INSERT INTO patents_info(registration_number,decision_date,right_person_name,invention_title)
+            VALUES (%s,%s,%s,%s)
         ''', (registration_number,decision_date,right_person_name,invention_title))
 
         #変更をコミット
