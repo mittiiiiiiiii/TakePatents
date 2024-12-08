@@ -79,7 +79,7 @@ def insert_data(registration_number,decision_date,right_person_name,invention_ti
             user="postgres",
             password=os.getenv('POSTGRES_PASSWORD'),
             host="localhost",
-            port="5432"  #ポートフォワーディングで使用したポート
+            port="5433"  #ポートフォワーディングで使用したポート
         )
         cursor=conn.cursor()
 
