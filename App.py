@@ -23,24 +23,17 @@ def main():
 
         if access_token:
             print("Access tokenの取得に成功")
-
-            i=0
-
-            while i<50:
-
-                patent_info=get_api_response(access_token,f"{target_url}/{endpoint}",application_number) #APIから特許情報を取得
-                print(patent_info)
+            patent_info=get_api_response(access_token,f"{target_url}/{endpoint}",application_number) #APIから特許情報を取得
+            print(patent_info)
 
                 #JSONから必要な情報を抽出
-                registration_number=patent_info['result']['data']['registrationNumber']
-                decision_date=patent_info['result']['data']['decisionDate']
-                right_person_name=patent_info['result']['data']['rightPersonInformation'][0]['rightPersonName']
-                invention_title=patent_info['result']['data']['inventionTitle']
+            registration_number=patent_info['result']['data']['registrationNumber']
+            decision_date=patent_info['result']['data']['decisionDate']
+            right_person_name=patent_info['result']['data']['rightPersonInformation'][0]['rightPersonName']
+            invention_title=patent_info['result']['data']['inventionTitle']
 
-                #データベースに保存
-                insert_data(registration_number,decision_date,right_person_name,invention_title)
-
-                i+=1
+            #データベースに保存
+            insert_data(registration_number,decision_date,right_person_name,invention_title)
 
             print("データベースに保存しました")
 
