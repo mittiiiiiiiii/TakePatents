@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-initdb
+  namespace: default
+data:
+  init.sql: |
+    CREATE DATABASE mydatabase;
+    \c mydatabase
+    CREATE TABLE IF NOT EXISTS patents_info (
+      registration_number INTEGER,
+      right_person_name TEXT,
+      invention_title TEXT
+    );
