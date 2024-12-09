@@ -1,4 +1,4 @@
 .env
 my-postgres-secret.yaml
 
-*_vectorstore
+*_vectorstore/*
