@@ -1,7 +1,7 @@
 import os
 import psycopg2
 
-def fetch_patent_data():
+def fetch_patent_data(): #データベースからデータを取得
     conn = psycopg2.connect(
         dbname="mydatabase",
         user="postgres",
@@ -17,5 +17,8 @@ def fetch_patent_data():
     cursor.close()
     conn.close()
 
+    print(data)
+
     return data
 
+fetch_patent_data()
