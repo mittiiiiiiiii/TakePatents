@@ -31,7 +31,6 @@
         ```bash
         minikube start
         ````
-    
     2. PostgreSQLの管理者ユーザの認証情報の設定と適用
         - シークレットを作成
         ```bash
@@ -54,7 +53,6 @@
         ```bash
         kubectl apply -f k8s/postgres-service.yaml
         ```
-
     4. ポートフォワーディングを設定
         - ローカルからクラスターにアクセスをできるようにする
         ```bash
@@ -75,6 +73,12 @@
         ```
         - 接続できたらデータが保存されているか確認
         ```bash
-        mydatabase=# SELECT * FROM patents_info;
+        SELECT * FROM patents_info;
         ```
         - テーブルに取得したデータが保存されていれば成功
+
+5. Ragの構築
+    - データベースからベクトルを取得、保存
+        ```bash
+        python Get_Data.py
+        ```
