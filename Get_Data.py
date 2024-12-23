@@ -27,7 +27,7 @@ def fetch_patent_data(): #データベースからデータを取得
 def create_vector_store():
     load_dotenv()
     data = fetch_patent_data()
-    documents=[f"{row[1]} by {row[2]}" for row in data]
+    documents=[f"{row[1]} by {row[2]}. this patent's number is {row[0]}." for row in data]
     embeddings=OpenAIEmbeddings(api_key=os.getenv("OPENAI_API_KEY"))
     vectorstore=FAISS.from_texts(documents,embeddings)
     vectorstore.save_local("patents_vectorstore")
