@@ -82,3 +82,13 @@
         ```bash
         python Get_Data.py
         ```
+
+6. GPTの使い方
+    - OPENAIのAPIキーをenvに記載
+    ```.env
+    OPENAI_API_KEY=APIのキー
+    ```
+    - 実行
+    ```bash
+    python GPT.py
+    ```
