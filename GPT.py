@@ -20,13 +20,13 @@ def create_rag_app():
 
     #OpenAIモデルを設定
     llm=ChatOpenAI(
-        model="gpt-4",
+        model="gpt-4o-turbo",
         api_key=os.getenv("OPENAI_API_KEY")
     )
 
     retriever=load_vector_store()# ベクトル検索リトリーバを読み込み
 
-    #Retrieval-Augmented Generation (RAG) チェーンを作成
+    #Retrieval-Augmented Ge neration (RAG) チェーンを作成
     qa_chain=RetrievalQA.from_chain_type(
         llm=llm,
         retriever=retriever,
